@@ -99,10 +99,36 @@ const updateTask = (req, res) => {
     });
 };
 
+const deleteTask = (req, res) => {
+    const { id } = req.params;
+
+    const conexion = getConnection();
+    conexion.connect(err => {
+        if (err) {
+            console.error('Error conectando a la base de datos:', err);
+            return res.status(500).send('Error conectando a la base de datos');
+        }
+
+        conexion.query('DELETE FROM tasks WHERE id = ?', [id], (err, results) => {
+            if (err) {
+                console.error('Error al eliminar la tarea:', err);
+                return res.status(500).send('Error al eliminar la tarea');
+            }
+            if (results.affectedRows === 0) {
+                return res.status(404).send('Tarea no encontrada');
+            }
+            res.send('Tarea eliminada');
+            conexion.end();
+        });
+    });
+};
+
+
 
 module.exports = { 
     getAllTasks,
     getTaskById,
     createTask,
-    updateTask
+    updateTask,
+    deleteTask
  };
