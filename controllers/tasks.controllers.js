@@ -1,9 +1,8 @@
 const getConnection = require('../db/database');
 
-const getAllTasks = async (req, res) => {
+const getAllTasks = (req, res) => {
     const conexion = getConnection();
-    
-    conexion.connect((err) => {
+    conexion.connect(err => {
         if (err) {
             console.error('Error conectando a la base de datos:', err);
             return res.status(500).send('Error conectando a la base de datos');
@@ -15,7 +14,7 @@ const getAllTasks = async (req, res) => {
                 return res.status(500).send('Error al obtener las tareas');
             }
             res.json(results);
-            conexion.end(); 
+            conexion.end();
         });
     });
 };

@@ -5,16 +5,16 @@ const router = require('./routes/tasks.routes');
 
 const app = express();
 
-//configuraciones
+// Configuraciones
 app.set('port', process.env.PORT || 4000);
 
-//middlewares
+// Middlewares
 app.use(morgan('dev'));
-app.use(cors());
-app.use(express.json());
-app.use(router);
+app.use(cors()); 
+app.use(express.json()); 
+app.use(router); 
 
-//servidor 
+// Iniciar el servidor
 app.listen(app.get('port'), () => {
-    console.log(`Servidor Andando en el puerto ${app.get('port')}`);
-})
+    console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
+});

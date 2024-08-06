@@ -1,12 +1,12 @@
-const myqsl = require('mysql2');
+const mysql = require('mysql2');
 
 const conexion = () => {
-    return myqsl.createConnection({
+    return mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
         database: 'tasks_db'
-    })
-}
+    });
+};
 
-module.exports = conexion
+module.exports = conexion;
