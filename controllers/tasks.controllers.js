@@ -42,7 +42,35 @@ const getTaskById = (req, res) => {
     });
 };
 
+const createTask = (req, res) => {
+    const { title, description, isComplete } = req.body;
+    
+    if (!title || title.length > 255 || !description || typeof isComplete !== 'boolean') {
+        return res.status(400).send('Datos inválidos');
+    }
+
+    const conexion = getConnection();
+    conexion.connect(err => {
+        if (err) {
+            console.error('Error conectando a la base de datos:', err);
+            return res.status(500).send('Error conectando a la base de datos');
+        }
+
+        const task = { title, description, isComplete };
+        conexion.query('INSERT INTO tasks SET ?', task, (err, results) => {
+            if (err) {
+                console.error('Error al crear la tarea:', err);
+                return res.status(500).send('Error al crear la tarea');
+            }
+            res.status(201).send('Tarea creada');
+            conexion.end();
+        });
+    });
+};
+
+
 module.exports = { 
     getAllTasks,
     getTaskById,
+    createTask
  };
