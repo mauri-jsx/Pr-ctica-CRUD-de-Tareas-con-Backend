@@ -69,8 +69,40 @@ const createTask = (req, res) => {
 };
 
 
+const updateTask = (req, res) => {
+    const { id } = req.params;
+    const { title, description, isComplete } = req.body;
+    
+    if (!title || title.length > 255 || !description || typeof isComplete !== 'boolean') {
+        return res.status(400).send('Datos inválidos');
+    }
+
+    const conexion = getConnection();
+    conexion.connect(err => {
+        if (err) {
+            console.error('Error conectando a la base de datos:', err);
+            return res.status(500).send('Error conectando a la base de datos');
+        }
+
+        const task = { title, description, isComplete };
+        conexion.query('UPDATE tasks SET ? WHERE id = ?', [task, id], (err, results) => {
+            if (err) {
+                console.error('Error al actualizar la tarea:', err);
+                return res.status(500).send('Error al actualizar la tarea');
+            }
+            if (results.affectedRows === 0) {
+                return res.status(404).send('Tarea no encontrada');
+            }
+            res.send('Tarea actualizada');
+            conexion.end();
+        });
+    });
+};
+
+
 module.exports = { 
     getAllTasks,
     getTaskById,
-    createTask
+    createTask,
+    updateTask
  };
