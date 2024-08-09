@@ -36,7 +36,7 @@ export const taskValidation = [
 //VALDACIONES PARA ACTUALIZAR TAREAS
 export const updateTaskValidation = [
     body('title')
-        .optional()
+        .optional() 
         .isString()
         .withMessage('El campo title debe ser una cadena de texto')
         .isLength({ min: 5 })
