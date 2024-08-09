@@ -1,7 +1,7 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const router = require('./routes/tasks.routes');
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import router from './routes/tasks.routes.js';
 
 const app = express();
 

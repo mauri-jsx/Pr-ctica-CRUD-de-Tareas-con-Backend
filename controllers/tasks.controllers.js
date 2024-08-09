@@ -1,7 +1,7 @@
-const getConnection = require('../db/database');
+import { getconexion } from '../db/database.js';
 
-const getAllTasks = (req, res) => {
-    const conexion = getConnection();
+ export const getAllTasks = (req, res) => {
+    const conexion = getconexion();
     conexion.connect(err => {
         if (err) {
             console.error('Error conectando a la base de datos:', err);
@@ -19,8 +19,8 @@ const getAllTasks = (req, res) => {
     });
 };
 
-const getTaskById = (req, res) => {
-    const conexion = getConnection();
+ export const getTaskById = (req, res) => {
+    const conexion = getconexion();
     const { id } = req.params;
     conexion.connect(err => {
         if (err) {
@@ -42,14 +42,14 @@ const getTaskById = (req, res) => {
     });
 };
 
-const createTask = (req, res) => {
+ export const createTask = (req, res) => {
     const { title, description, isComplete } = req.body;
     
     if (!title || title.length > 255 || !description || typeof isComplete !== 'boolean') {
         return res.status(400).send('Datos inválidos');
     }
 
-    const conexion = getConnection();
+    const conexion = getconexion();
     conexion.connect(err => {
         if (err) {
             console.error('Error conectando a la base de datos:', err);
@@ -68,8 +68,7 @@ const createTask = (req, res) => {
     });
 };
 
-
-const updateTask = (req, res) => {
+ export const updateTask = (req, res) => {
     const { id } = req.params;
     const { title, description, isComplete } = req.body;
     
@@ -77,7 +76,7 @@ const updateTask = (req, res) => {
         return res.status(400).send('Datos inválidos');
     }
 
-    const conexion = getConnection();
+    const conexion = getconexion();
     conexion.connect(err => {
         if (err) {
             console.error('Error conectando a la base de datos:', err);
@@ -99,10 +98,10 @@ const updateTask = (req, res) => {
     });
 };
 
-const deleteTask = (req, res) => {
+export const deleteTask = (req, res) => {
     const { id } = req.params;
 
-    const conexion = getConnection();
+    const conexion = getconexion();
     conexion.connect(err => {
         if (err) {
             console.error('Error conectando a la base de datos:', err);
@@ -123,12 +122,3 @@ const deleteTask = (req, res) => {
     });
 };
 
-
-
-module.exports = { 
-    getAllTasks,
-    getTaskById,
-    createTask,
-    updateTask,
-    deleteTask
- };
